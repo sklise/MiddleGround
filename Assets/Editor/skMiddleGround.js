@@ -6,6 +6,7 @@
  */
 
 static function BuildChair(center : Vector3, scale : float) : GameObject {
+  var orange = Color(.819607843, .431372549, .090196078);
   var chair : GameObject;
   var sideWidth = scale * .2;
   var sideHeight = scale * .6;
@@ -35,6 +36,15 @@ static function BuildChair(center : Vector3, scale : float) : GameObject {
 
   chairBack.name = "ChairBack";
   chairBack.transform.Rotate(Vector3.forward, 12);
+  
+  GeometryHelper.ApplyColor(chairCenter, orange);
+  GeometryHelper.ApplyColor(leftSide, orange);
+  GeometryHelper.ApplyColor(rightSide, orange);
+  GeometryHelper.ApplyColor(chairBack, orange);
+}
+
+static function BuildFloor() : GameObject {
+  var brown = Color(.478431373, .290196078, .121568627);
 }
 
 static function BuildSofa() : GameObject {
