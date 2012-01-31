@@ -60,39 +60,32 @@ static function BuildChair(center : Vector3, scale : float) : GameObject {
   var chair : GameObject;
   var sideWidth = scale * .2;
   var sideHeight = scale * .6;
-  var centerWidth = scale * .6;
+  var centerWidth = scale;
   var centerHeight = scale * .4;
-  var depth = scale * .6;
-  
+  var depth = scale * .8;
+
   var cushionTopPos = center;
-  var cushionTop = GeometryHelper.CreateHorizontalPlane( cushionTopPos, depth, centerWidth);
+
+  var chairCenter = GeometryHelper.CreateCube(cushionTopPos, Vector3(depth, 40, centerWidth));
+  sideHeight = 40 + 15;
+  var rightSidePos = cushionTopPos + Vector3(0, -(40 - sideHeight)/2, centerWidth/2 + 2);
+  var rightSide = GeometryHelper.CreateCube(rightSidePos, Vector3(depth+4, sideHeight, 10));
+
+  var leftSidePos = cushionTopPos + Vector3(0, -(40 - sideHeight)/2, -centerWidth/2 - 2);
+  var leftSide = GeometryHelper.CreateCube(leftSidePos, Vector3(depth+4, sideHeight, 10));
+
+  leftSide.name = "ChairLeft";
+  rightSide.name = "ChairRight";
   
-  var backHeight =  scale*.6;
-  print(cushionTopPos);
-  var backFrontPos = cushionTopPos + Vector3(-depth*5, backHeight*5, 0);
-  print(backFrontPos);
-  print(backHeight);
-  var backFront = GeometryHelper.CreateVerticalPlaneAlongX(backFrontPos, centerWidth, backHeight);
-  
-  var backWidth = scale * .2;
-  var backTopPos = backFrontPos + Vector3( -backWidth*10, backHeight*5, 0);
-  var backTop = GeometryHelper.CreateHorizontalPlane(backTopPos, backWidth, centerWidth);
-  
-  var backLeftSidePos = backFrontPos + Vector3( -backWidth*5, 0, -centerWidth*5);
-  var backLeftSide = GeometryHelper.CreateVerticalPlaneAlongZ(backLeftSidePos, backWidth, backHeight);
-  
-  var backRightSidePos = backFrontPos + Vector3(-backWidth * 5, 0, centerWidth * 5);
-  var backRightSide = GeometryHelper.CreateVerticalPlaneAlongZ(backRightSidePos, backWidth, backHeight);  
-  
-  backFront.transform.Rotate(Vector3.forward, 15);
-  backTop.transform.Rotate(Vector3.forward, 15);
-  backLeftSide.transform.Rotate(-Vector3.up, 15);
-  backRightSide.transform.Rotate(-Vector3.up, 15);
-  backRightSide.transform.Rotate(Vector3.forward, 180);
-  
-  var centerFront = GeometryHelper.CreateVerticalPlaneAlongX(center + Vector3(scale*3, -(2)*depth, -scale*.5), centerWidth, centerHeight);
-  
-  var rightSide = GeometryHelper.CreateCube(cushionTopPos, Vector3(depth, 50, 50));
+  rightSide.transform.Rotate(Vector3.right, 4);
+  leftSide.transform.Rotate(-Vector3.right, 4);
+
+  var backHeight = sideHeight * 1.65;
+  var chairBackPos = cushionTopPos + Vector3( -depth/2, (backHeight-40)/2, 0);
+  var chairBack = GeometryHelper.CreateCube(chairBackPos, Vector3(10, backHeight, centerWidth+10));
+
+  chairBack.name = "ChairBack";
+  chairBack.transform.Rotate(Vector3.forward, 12);
 }
 
 static function BuildSofa() : GameObject {
@@ -108,7 +101,7 @@ static function BuildMemory() {
 	//Fill this out
 	var mg : GameObject;
   
-  BuildFloor();
+  // BuildFloor();
   
   BuildChair( Vector3(0, 0, 0), 50);
   
@@ -117,6 +110,6 @@ static function BuildMemory() {
   
 	// Instantiate Camera
 	// Move the camera to the couch.
-	Camera.main.transform.position = Vector3(691, 221, -33);
+	Camera.main.transform.position = Vector3(200, 30, -33);
 	Camera.main.transform.LookAt(Vector3(0, 0, -50));
 }
