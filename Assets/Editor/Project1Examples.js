@@ -12,7 +12,7 @@ static function HelloWorld () {
 static function BuildPrimitives(){
 	//create little rows of geometric primitives
 	var i : int;
-	var g : GameObject;
+  var g : GameObject;
 	for(i = 0; i < 10; i++){
 		g = GeometryHelper.CreateCube(Vector3(i*30,10,10), Vector3(10,4,6));
 		g.name = "Cube " + i;
