@@ -46,7 +46,10 @@ static function BuildChair(center : Vector3, scale : float) : GameObject {
 static function BuildFloor() : GameObject {
   var brown = Color(.478431373, .290196078, .121568627);
   
-  
+  var floorPos : Vector3 = Vector3(0, -20, 200);
+  var floor = GeometryHelper.CreateCube(floorPos, Vector3(500, 2, 500));
+  GeometryHelper.ApplyColor(floor, brown);
+  floor.transform.Rotate(Vector3(0, 1, 0), 23);
 }
 
 static function BuildWalls(center : Vector3, scale: float) {
@@ -79,6 +82,11 @@ static function BuildWalls(center : Vector3, scale: float) {
   wall = GeometryHelper.CreateCube( upperPos, lowerDim);
   wall.transform.Rotate(Vector3(0, 1, 0), 23);
   GeometryHelper.ApplyColor(wall, paint);
+  
+  var sideWallDim = Vector3(sideDim.x*4,lowerDim.y*2+sideDim.y,wallThickness);
+  var sideWallPos = wallSideRightPos + Vector3(-15,0,50);
+  wall = GeometryHelper.CreateCube(sideWallPos, sideWallDim);
+  wall.transform.Rotate(Vector3(0, 1, 0), 83);
 }
 
 @MenuItem ("Assignment1/Steve Klise - Middle Ground")
@@ -88,13 +96,21 @@ static function BuildMemory() {
 
   BuildChair( Vector3(0, 0, 0), 50);
   BuildWalls( Vector3(10, -25, -70), 60);
+  BuildFloor();
 
   // Sunlight
-  GeometryHelper.CreateDirectionalLight(Vector3(200, 200, -100), Vector3(2,-10,10), 0.65, Color.yellow);
+  GeometryHelper.CreateDirectionalLight(Vector3(200, 200, -100), Vector3(2,-10,10), 0.65, Color(0.98, 0.98, 0.8));
 
 	// Instantiate Camera
 	// Move the camera to the couch.
 	Camera.main.transform.position = Vector3(137, 43, 20);
   // rotation 8, 284, 2.817
-	Camera.main.transform.LookAt(Vector3(-15, 27, 100));
+	Camera.main.transform.LookAt(Vector3(-165, 27, 100));
+  
+  for(var i = 0; i<3; i++) {
+    var position = Vector3(18+i*10, 50, -22+i*60);
+    var direction = -Vector3.up;
+    GeometryHelper.CreateSpotLight(position, direction, 200.0, 80.0, 1, Color.white);
+    
+  }
 }
